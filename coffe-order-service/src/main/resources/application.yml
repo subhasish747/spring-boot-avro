@@ -1,6 +1,8 @@
 server:
   port: 9000
 spring:
+  application:
+    name: coffe-order
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -15,18 +17,21 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   kafka:
+    bootstrap-servers: localhost:9092
     template:
       default-topic: library-events
     properties:
       bootstrap-servers: localhost:9092
-      ssl.endpoint.identification.algorithm: https
-      sasl.mechanism: PLAIN
-      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username=<user> password=<passcode>;
-      security.protocol: SASL_SSL
+      "[schema.registry.url]": http://localhost:8081
+ #     ssl.endpoint.identification.algorithm: https
+ #     sasl.mechanism: PLAIN
+ #     sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username=<user> password=<passcode>;
+ #     security.protocol: SASL_SSL
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      #value-serializer: org.apache.kafka.common.serialization.StringSerializer
     admin:
       properties:
         bootstrap.servers: localhost:9092
