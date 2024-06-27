@@ -7,36 +7,46 @@ import java.util.List;
 public class DataHelper {
 
     public static CoffeeOrder getOrder(){
-        return CoffeeOrder.newBuilder().setId(1)
-                .setName("Expresso")
-                .setStatus("ordered")
-                .setStore(
+        CoffeeOrder order =new CoffeeOrder();
+        order.setId(1);
+        order.setName("Expresso");
+        order.setStatus("ordered");
+        order.setNickName("cf");
+        order.setStore(
                     getStore()
-                ).setOrderLineItems(
+                );
+        order.setOrderLineItems(
                     getOrderLineItems()
-                ).build();
+                );
+        return order;
     }
 
 
     public static Address getAddress(){
-        return Address.newBuilder()
-                .setAddressLine1("ABC Road")
-                .setCity("Kolkata")
-                .setStateProvince("WB")
-                .setCountry("India")
-                .build();
+        Address address =new Address();
+        address.setAddressLine1("ABC Road");
+        address.setCity("Kolkata");
+        address.setStateProvince("WB");
+        address.setCountry("India");
+        address.setZip("700136");
+        return address;
     }
 
     public static Store getStore(){
-        return Store.newBuilder().setId(1)
-                .setAddress(
-                        getAddress()
-                ).build();
+        Store store = new Store();
+        store.setId(1);
+        store.setAddress(
+                getAddress()
+        );
+        return store;
     }
 
     public static List<OrderLineItem> getOrderLineItems(){
-        return List.of(OrderLineItem.newBuilder().setName("coffe").
-                setSize(Size.LARGE).setQuantity(1).build()
+        OrderLineItem orderLineItem = new OrderLineItem();
+        orderLineItem.setName("coffe");
+        orderLineItem.setSize(Size.LARGE);
+        orderLineItem.setQuantity(1);
+        return List.of(orderLineItem
         )  ;
     }
 

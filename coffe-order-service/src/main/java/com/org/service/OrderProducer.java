@@ -4,6 +4,7 @@ package com.org.service;
 import com.learnavro.domain.generated.CoffeeOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +32,18 @@ public class OrderProducer {
         kafkaTemplate.send(TOPIC, String.valueOf(order.getId()) , order);
     }
 
+    private void handleSuccess(RecordMetadata result) {
+        log.info("Message sent successfully: {}", result);
+    }
+
+    private void handleFailure(CoffeeOrder message, Throwable ex) {
+        log.error("Failed to send message: {}", message, ex);
+    }
 
 
-    public Map<String, Object> getKafkaProducerProperties(){
+
+
+public Map<String, Object> getKafkaProducerProperties(){
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServer);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
